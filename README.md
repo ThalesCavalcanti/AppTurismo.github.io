@@ -1,4 +1,4 @@
-# AppTurismo - Paraíba 🇧
+# AppTurismo - Paraíba 
 
 Aplicativo híbrido (mobile/web) em Flutter para turismo no estado da Paraíba, Brasil. Utiliza algoritmos de Machine Learning para sugerir lugares turísticos baseados nas preferências e avaliações dos usuários.
 
