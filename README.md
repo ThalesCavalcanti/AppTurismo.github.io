@@ -1,17 +1,17 @@
-# AppTurismo - Paraíba 🇧🇷
+# AppTurismo - Paraíba 🇧
 
 Aplicativo híbrido (mobile/web) em Flutter para turismo no estado da Paraíba, Brasil. Utiliza algoritmos de Machine Learning para sugerir lugares turísticos baseados nas preferências e avaliações dos usuários.
 
-## ✨ Funcionalidades
+##  Funcionalidades
 
-- 🗺️ **Mapa Interativo**: Visualização de pontos turísticos no Google Maps
-- 🤖 **Sugestões Inteligentes**: Recomendações personalizadas usando ML
-- ⭐ **Sistema de Avaliação**: Usuários podem avaliar e comentar sobre lugares
-- 📍 **Pontos de Referência**: Marcadores no mapa para fácil navegação
-- 💾 **Armazenamento Local**: Avaliações salvas localmente no dispositivo
-- 📱 **Interface Responsiva**: Funciona em Android, iOS e Web
+-  **Mapa Interativo**: Visualização de pontos turísticos no Google Maps
+-  **Sugestões Inteligentes**: Recomendações personalizadas usando ML
+-  **Sistema de Avaliação**: Usuários podem avaliar e comentar sobre lugares
+-  **Pontos de Referência**: Marcadores no mapa para fácil navegação
+-  **Armazenamento Local**: Avaliações salvas localmente no dispositivo
+-  **Interface Responsiva**: Funciona em Android, iOS e Web
 
-## 🚀 Início Rápido
+##  Início Rápido
 
 ### Pré-requisitos
 
@@ -41,7 +41,7 @@ Aplicativo híbrido (mobile/web) em Flutter para turismo no estado da Paraíba, 
    flutter run
    ```
 
-## 📁 Estrutura do Projeto
+##  Estrutura do Projeto
 
 ```
 lib/
@@ -67,7 +67,7 @@ lib/
 └── main.dart            # Ponto de entrada
 ```
 
-## 🧠 Algoritmo de Recomendação (ML)
+##  Algoritmo de Recomendação (ML)
 
 O sistema de recomendações utiliza um algoritmo híbrido que considera:
 
@@ -77,14 +77,14 @@ O sistema de recomendações utiliza um algoritmo híbrido que considera:
 4. **Distância** (20 pontos): Proximidade do usuário
 5. **Diversidade**: Penaliza lugares já avaliados pelo usuário
 
-## 📱 Telas
+##  Telas
 
 - **Mapa**: Visualização interativa com marcadores dos lugares
 - **Sugestões**: Lista de lugares recomendados pelo algoritmo ML
 - **Detalhes**: Informações completas sobre um lugar
 - **Avaliação**: Interface para avaliar e comentar sobre lugares
 
-## 🛠️ Tecnologias Utilizadas
+##  Tecnologias Utilizadas
 
 - **Flutter**: Framework multiplataforma
 - **Google Maps**: Integração de mapas
@@ -92,18 +92,18 @@ O sistema de recomendações utiliza um algoritmo híbrido que considera:
 - **SharedPreferences**: Armazenamento local
 - **JSON Serialization**: Serialização de dados
 
-## 📝 Notas
+##  Notas
 
 - Os dados de lugares estão mockados em `lib/services/place_service.dart`
 - Em produção, substitua por chamadas de API reais
 - O algoritmo ML pode ser melhorado com mais features e dados
 - Configure permissões de localização para melhor experiência
 
-## 📖 Documentação Adicional
+##  Documentação Adicional
 
 Consulte `SETUP.md` para instruções detalhadas de configuração.
 
-## 📄 Licença
+##  Licença
 
 Este projeto é de código aberto.
 
