@@ -1,0 +1,17 @@
+// Copie este arquivo para map_config.dart e adicione sua API key
+class MapConfig {
+  static const String googleMapsApiKey = 'SUA_API_KEY_AQUI';
+  
+  static const double defaultLatitude = -7.1195;
+  static const double defaultLongitude = -34.8450;
+  
+  static const double defaultZoom = 12.0;
+  static const double minZoom = 8.0;
+  static const double maxZoom = 18.0;
+}
+
+
+
+
+
+
