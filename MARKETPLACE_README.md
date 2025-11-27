@@ -1,18 +1,18 @@
 # Marketplace - Funcionalidades Implementadas
 
-## 📦 Novo Sistema de Marketplace Local
+##  Novo Sistema de Marketplace Local
 
 O aplicativo agora inclui um marketplace completo para que moradores de João Pessoa possam vender seus produtos localmente.
 
-## 🎯 Funcionalidades
+##  Funcionalidades
 
-### ✅ Autenticação e Registro
+###  Autenticação e Registro
 - **Login**: Autenticação de usuários existentes
 - **Cadastro**: Registro de novos usuários
 - **Tipo de Conta**: Durante o cadastro, usuários podem se registrar como vendedores
 - **Sessão Persistente**: Usuário permanece logado após fechar o app
 
-### ✅ Marketplace de Produtos
+###  Marketplace de Produtos
 - **Listagem de Produtos**: Visualização de todos os produtos disponíveis
 - **Busca**: Busca por nome, descrição ou categoria
 - **Filtros por Categoria**: 
@@ -24,7 +24,7 @@ O aplicativo agora inclui um marketplace completo para que moradores de João Pe
   - Outros
 - **Detalhes do Produto**: Informações completas incluindo preço, descrição, estoque e localização
 
-### ✅ Painel do Vendedor
+###  Painel do Vendedor
 - **Dashboard**: Área exclusiva para vendedores
 - **Gerenciamento de Produtos**: 
   - Adicionar novos produtos
@@ -32,14 +32,14 @@ O aplicativo agora inclui um marketplace completo para que moradores de João Pe
   - Excluir produtos
   - Visualizar estatísticas (estoque, disponibilidade)
 
-### ✅ Banco de Dados Local (SQLite)
+###  Banco de Dados Local (SQLite)
 - **Armazenamento Local**: Todos os dados são salvos localmente no dispositivo
 - **Tabelas**:
   - `users`: Usuários e vendedores
   - `products`: Produtos do marketplace
 - **Relacionamentos**: Produtos vinculados aos vendedores
 
-## 📱 Telas Implementadas
+##  Telas Implementadas
 
 1. **Login Screen** (`lib/screens/login_screen.dart`)
    - Login com email e senha
@@ -71,7 +71,7 @@ O aplicativo agora inclui um marketplace completo para que moradores de João Pe
    - Ações rápidas (editar, excluir)
    - Acesso para adicionar novos produtos
 
-## 🔧 Serviços Criados
+##  Serviços Criados
 
 1. **DatabaseService** (`lib/services/database_service.dart`)
    - Gerenciamento do banco SQLite
@@ -88,7 +88,7 @@ O aplicativo agora inclui um marketplace completo para que moradores de João Pe
    - Busca de produtos
    - Filtros e categorias
 
-## 📊 Modelos de Dados
+##  Modelos de Dados
 
 1. **User** (`lib/models/user.dart`)
    - Informações do usuário
@@ -100,7 +100,7 @@ O aplicativo agora inclui um marketplace completo para que moradores de João Pe
    - Vinculação com vendedor
    - Localização em João Pessoa
 
-## 🚀 Como Usar
+##  Como Usar
 
 ### Para Usuários Normais:
 1. Faça login ou cadastre-se
@@ -115,9 +115,9 @@ O aplicativo agora inclui um marketplace completo para que moradores de João Pe
 4. Adicione produtos usando o botão "+"
 5. Gerencie seus produtos no dashboard
 
-## 🔐 Segurança
+##  Segurança
 
-⚠️ **Nota Importante**: 
+ **Nota Importante**: 
 - As senhas estão sendo armazenadas em texto plano (apenas para desenvolvimento)
 - **Em produção, implemente**:
   - Hash de senhas (bcrypt)
@@ -125,7 +125,7 @@ O aplicativo agora inclui um marketplace completo para que moradores de João Pe
   - Validação de email
   - Recuperação de senha
 
-## 📝 Próximas Melhorias Sugeridas
+##  Próximas Melhorias Sugeridas
 
 - [ ] Upload de imagens de produtos
 - [ ] Sistema de avaliações de produtos
@@ -137,7 +137,7 @@ O aplicativo agora inclui um marketplace completo para que moradores de João Pe
 - [ ] Favoritos
 - [ ] Histórico de compras
 
-## 🗄️ Estrutura do Banco de Dados
+##  Estrutura do Banco de Dados
 
 ### Tabela: users
 - id (TEXT PRIMARY KEY)
