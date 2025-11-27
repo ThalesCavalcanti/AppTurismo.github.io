@@ -251,10 +251,10 @@ class _PlaceDetailScreenState extends State<PlaceDetailScreen> {
       // Mostrar mensagem de sucesso
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Row(
+          content: const Row(
             children: [
-              const Icon(Icons.celebration, color: Colors.white),
-              const SizedBox(width: 8),
+              Icon(Icons.celebration, color: Colors.white),
+              SizedBox(width: 8),
               Expanded(
                 child: Text('Check-in realizado! Você ganhou um sel! 🎉'),
               ),

@@ -372,7 +372,7 @@ class _StampDetailDialog extends StatelessWidget {
                     Icon(Icons.lock, color: Colors.orange),
                     SizedBox(width: 8),
                     Text(
-                      'Sel ainda não coletado',
+                      'Selo ainda não coletado',
                       style: TextStyle(color: Colors.orange),
                     ),
                   ],

@@ -91,7 +91,7 @@ class _MapScreenState extends State<MapScreen> {
           return Stack(
             children: [
               GoogleMap(
-                initialCameraPosition: CameraPosition(
+                initialCameraPosition: const CameraPosition(
                   target: LatLng(
                     MapConfig.defaultLatitude,
                     MapConfig.defaultLongitude,
@@ -136,6 +136,9 @@ class _MapScreenState extends State<MapScreen> {
     super.dispose();
   }
 }
+
+
+
 
 
 

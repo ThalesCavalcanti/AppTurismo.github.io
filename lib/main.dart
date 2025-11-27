@@ -208,9 +208,9 @@ class _MainScreenState extends State<MainScreen> {
             label: 'Marketplace',
             tooltip: isGuest ? 'Login necessário' : 'Marketplace',
           ),
-          NavigationDestination(
-            icon: const Icon(Icons.card_membership_outlined),
-            selectedIcon: const Icon(Icons.card_membership),
+          const NavigationDestination(
+            icon: Icon(Icons.card_membership_outlined),
+            selectedIcon: Icon(Icons.card_membership),
             label: 'Passaporte',
           ),
         ],
@@ -246,9 +246,9 @@ class _MainScreenState extends State<MainScreen> {
                     ],
                   ),
                 ),
-              PopupMenuItem(
+              const PopupMenuItem(
                 value: 'passport',
-                child: const Row(
+                child: Row(
                   children: [
                     Icon(Icons.card_membership, size: 20),
                     SizedBox(width: 8),
@@ -257,9 +257,9 @@ class _MainScreenState extends State<MainScreen> {
                 ),
               ),
               if (isGuest)
-                PopupMenuItem(
+                const PopupMenuItem(
                   value: 'login',
-                  child: const Row(
+                  child: Row(
                     children: [
                       Icon(Icons.login, size: 20),
                       SizedBox(width: 8),
