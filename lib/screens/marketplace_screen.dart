@@ -32,7 +32,9 @@ class _MarketplaceScreenState extends State<MarketplaceScreen> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      context.read<MarketplaceProvider>().loadProducts();
+      if (mounted) {
+        context.read<MarketplaceProvider>().loadProducts();
+      }
     });
   }
 
@@ -46,7 +48,6 @@ class _MarketplaceScreenState extends State<MarketplaceScreen> {
   Widget build(BuildContext context) {
     final authProvider = context.watch<AuthProvider>();
     
-    // Verificar se é convidado - não deveria chegar aqui, mas por segurança
     if (authProvider.isGuest) {
       return Scaffold(
         appBar: AppBar(
@@ -77,9 +78,12 @@ class _MarketplaceScreenState extends State<MarketplaceScreen> {
                 ),
                 const SizedBox(height: 32),
                 ElevatedButton.icon(
-                  onPressed: () {
-                    authProvider.logout();
-                    Navigator.of(context).pushReplacementNamed('/login');
+                  onPressed: () async {
+                    final navigator = Navigator.of(context);
+                    await authProvider.logout();
+                    if (mounted) {
+                      navigator.pushReplacementNamed('/login');
+                    }
                   },
                   icon: const Icon(Icons.login),
                   label: const Text('Fazer Login / Cadastrar'),
@@ -124,15 +128,17 @@ class _MarketplaceScreenState extends State<MarketplaceScreen> {
             IconButton(
               icon: const Icon(Icons.add),
               tooltip: 'Adicionar Produto',
-              onPressed: () {
-                Navigator.push(
+              onPressed: () async {
+                final marketplaceProvider = context.read<MarketplaceProvider>();
+                await Navigator.push(
                   context,
                   MaterialPageRoute(
                     builder: (_) => const AddProductScreen(),
                   ),
-                ).then((_) {
-                  context.read<MarketplaceProvider>().loadProducts();
-                });
+                );
+                if (mounted) {
+                  marketplaceProvider.loadProducts();
+                }
               },
             ),
         ],
@@ -342,4 +348,3 @@ class _ProductCard extends StatelessWidget {
     );
   }
 }
-

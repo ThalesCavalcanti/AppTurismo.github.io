@@ -6,8 +6,41 @@ import '../models/product.dart';
 import 'product_detail_screen.dart';
 import 'add_product_screen.dart';
 
-class SellerDashboardScreen extends StatelessWidget {
+class SellerDashboardScreen extends StatefulWidget {
   const SellerDashboardScreen({super.key});
+
+  @override
+  State<SellerDashboardScreen> createState() => _SellerDashboardScreenState();
+}
+
+class _SellerDashboardScreenState extends State<SellerDashboardScreen> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        final authProvider = context.read<AuthProvider>();
+        context.read<MarketplaceProvider>().loadProducts(
+              sellerId: authProvider.currentUser?.id,
+            );
+      }
+    });
+  }
+
+  Future<void> _navigateAndReload() async {
+    await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) => const AddProductScreen(),
+      ),
+    );
+    if (mounted) {
+      final authProvider = context.read<AuthProvider>();
+      context.read<MarketplaceProvider>().loadProducts(
+            sellerId: authProvider.currentUser?.id,
+          );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -22,93 +55,65 @@ class SellerDashboardScreen extends StatelessWidget {
           IconButton(
             icon: const Icon(Icons.add),
             tooltip: 'Adicionar Produto',
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (_) => const AddProductScreen(),
-                ),
-              ).then((_) {
-                context.read<MarketplaceProvider>().loadProducts(
-                      sellerId: authProvider.currentUser?.id,
-                    );
-              });
-            },
+            onPressed: _navigateAndReload,
           ),
         ],
       ),
-      body: FutureBuilder<void>(
-        future: () async {
-          final provider = context.read<MarketplaceProvider>();
-          await provider.loadProducts(
-            sellerId: authProvider.currentUser?.id,
-          );
-        }(),
-        builder: (context, snapshot) {
-          return Consumer<MarketplaceProvider>(
-            builder: (context, provider, child) {
-              if (provider.isLoading) {
-                return const Center(child: CircularProgressIndicator());
-              }
+      body: Consumer<MarketplaceProvider>(
+        builder: (context, provider, child) {
+          if (provider.isLoading) {
+            return const Center(child: CircularProgressIndicator());
+          }
 
-              if (provider.error != null) {
-                return Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(provider.error!),
-                      ElevatedButton(
-                        onPressed: () => provider.loadProducts(
+          if (provider.error != null) {
+            return Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(provider.error!),
+                  ElevatedButton(
+                    onPressed: () {
+                      if (mounted) {
+                        provider.loadProducts(
                           sellerId: authProvider.currentUser?.id,
-                        ),
-                        child: const Text('Tentar novamente'),
-                      ),
-                    ],
+                        );
+                      }
+                    },
+                    child: const Text('Tentar novamente'),
                   ),
-                );
-              }
+                ],
+              ),
+            );
+          }
 
-              if (provider.products.isEmpty) {
-                return Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Icon(Icons.inventory_2, size: 80, color: Colors.grey),
-                      const SizedBox(height: 16),
-                      const Text(
-                        'Você ainda não tem produtos',
-                        style: TextStyle(fontSize: 18),
-                      ),
-                      const SizedBox(height: 8),
-                      ElevatedButton.icon(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (_) => const AddProductScreen(),
-                            ),
-                          ).then((_) {
-                            provider.loadProducts(
-                              sellerId: authProvider.currentUser?.id,
-                            );
-                          });
-                        },
-                        icon: const Icon(Icons.add),
-                        label: const Text('Adicionar Primeiro Produto'),
-                      ),
-                    ],
+          if (provider.products.isEmpty) {
+            return Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Icon(Icons.inventory_2, size: 80, color: Colors.grey),
+                  const SizedBox(height: 16),
+                  const Text(
+                    'Você ainda não tem produtos',
+                    style: TextStyle(fontSize: 18),
                   ),
-                );
-              }
+                  const SizedBox(height: 8),
+                  ElevatedButton.icon(
+                    onPressed: _navigateAndReload,
+                    icon: const Icon(Icons.add),
+                    label: const Text('Adicionar Primeiro Produto'),
+                  ),
+                ],
+              ),
+            );
+          }
 
-              return ListView.builder(
-                padding: const EdgeInsets.all(16),
-                itemCount: provider.products.length,
-                itemBuilder: (context, index) {
-                  final product = provider.products[index];
-                  return _SellerProductCard(product: product);
-                },
-              );
+          return ListView.builder(
+            padding: const EdgeInsets.all(16),
+            itemCount: provider.products.length,
+            itemBuilder: (context, index) {
+              final product = provider.products[index];
+              return _SellerProductCard(product: product);
             },
           );
         },
@@ -117,14 +122,64 @@ class SellerDashboardScreen extends StatelessWidget {
   }
 }
 
-class _SellerProductCard extends StatelessWidget {
+class _SellerProductCard extends StatefulWidget {
   final Product product;
 
   const _SellerProductCard({required this.product});
 
   @override
-  Widget build(BuildContext context) {
+  State<_SellerProductCard> createState() => _SellerProductCardState();
+}
+
+class _SellerProductCardState extends State<_SellerProductCard> {
+  Future<void> _onMenuSelected(String value) async {
     final marketplaceProvider = context.read<MarketplaceProvider>();
+    final product = widget.product;
+
+    if (value == 'edit') {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Funcionalidade de edição em breve'),
+          ),
+        );
+      }
+    } else if (value == 'delete') {
+      final confirm = await showDialog<bool>(
+        context: context,
+        builder: (dialogContext) => AlertDialog(
+          title: const Text('Confirmar exclusão'),
+          content: Text('Deseja realmente excluir "${product.name}"?'),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(dialogContext, false),
+              child: const Text('Cancelar'),
+            ),
+            TextButton(
+              onPressed: () => Navigator.pop(dialogContext, true),
+              child: const Text('Excluir', style: TextStyle(color: Colors.red)),
+            ),
+          ],
+        ),
+      );
+
+      if (mounted && confirm == true) {
+        final success = await marketplaceProvider.deleteProduct(product.id);
+        if (mounted && success) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Produto excluído com sucesso'),
+              backgroundColor: Colors.green,
+            ),
+          );
+        }
+      }
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final product = widget.product;
 
     return Card(
       margin: const EdgeInsets.only(bottom: 16),
@@ -161,6 +216,7 @@ class _SellerProductCard extends StatelessWidget {
           ],
         ),
         trailing: PopupMenuButton(
+          onSelected: _onMenuSelected,
           itemBuilder: (context) => [
             const PopupMenuItem(
               value: 'edit',
@@ -183,46 +239,6 @@ class _SellerProductCard extends StatelessWidget {
               ),
             ),
           ],
-          onSelected: (value) async {
-            if (value == 'edit') {
-              // TODO: Implementar edição
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  content: Text('Funcionalidade de edição em breve'),
-                ),
-              );
-            } else if (value == 'delete') {
-              final confirm = await showDialog<bool>(
-                context: context,
-                builder: (context) => AlertDialog(
-                  title: const Text('Confirmar exclusão'),
-                  content: Text('Deseja realmente excluir "${product.name}"?'),
-                  actions: [
-                    TextButton(
-                      onPressed: () => Navigator.pop(context, false),
-                      child: const Text('Cancelar'),
-                    ),
-                    TextButton(
-                      onPressed: () => Navigator.pop(context, true),
-                      child: const Text('Excluir', style: TextStyle(color: Colors.red)),
-                    ),
-                  ],
-                ),
-              );
-
-              if (confirm == true) {
-                final success = await marketplaceProvider.deleteProduct(product.id);
-                if (success && context.mounted) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text('Produto excluído com sucesso'),
-                      backgroundColor: Colors.green,
-                    ),
-                  );
-                }
-              }
-            }
-          },
         ),
         onTap: () {
           Navigator.push(
@@ -236,6 +252,3 @@ class _SellerProductCard extends StatelessWidget {
     );
   }
 }
-
-
-

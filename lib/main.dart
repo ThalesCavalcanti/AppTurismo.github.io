@@ -165,7 +165,7 @@ class _MainScreenState extends State<MainScreen> {
         onDestinationSelected: (index) {
           // Se for convidado tentando acessar marketplace
           if (isGuest && index == 2) {
-            _showLoginRequiredDialog(context);
+            _showLoginRequiredDialog();
             return;
           }
           // Se for usuário logado tentando acessar marketplace (índice 2)
@@ -181,9 +181,9 @@ class _MainScreenState extends State<MainScreen> {
               _currentIndex = index;
             });
             // Carregar passaporte se necessário
-            final authProvider = context.read<AuthProvider>();
+            final passportProvider = context.read<PassportProvider>();
             if (!authProvider.isGuest && authProvider.isAuthenticated) {
-              context.read<PassportProvider>().loadPassport(authProvider.currentUser!.id);
+              passportProvider.loadPassport(authProvider.currentUser!.id);
             }
             return;
           }
@@ -282,10 +282,11 @@ class _MainScreenState extends State<MainScreen> {
               ),
             ],
             onSelected: (value) async {
+              final navigator = Navigator.of(context);
               if (value == 'login' && isGuest) {
                 await authProvider.logout();
                 if (mounted) {
-                  Navigator.of(context).pushReplacementNamed('/login');
+                  navigator.pushReplacementNamed('/login');
                 }
               } else if (value == 'passport') {
                 setState(() {
@@ -294,7 +295,7 @@ class _MainScreenState extends State<MainScreen> {
               } else if (value == 'logout') {
                 await authProvider.logout();
                 if (mounted) {
-                  Navigator.of(context).pushReplacementNamed('/login');
+                  navigator.pushReplacementNamed('/login');
                 }
               }
             },
@@ -304,10 +305,10 @@ class _MainScreenState extends State<MainScreen> {
     );
   }
 
-  void _showLoginRequiredDialog(BuildContext context) {
+  void _showLoginRequiredDialog() {
     showDialog(
       context: context,
-      builder: (context) => AlertDialog(
+      builder: (BuildContext dialogContext) => AlertDialog(
         title: const Row(
           children: [
             Icon(Icons.lock, color: Colors.orange),
@@ -321,14 +322,17 @@ class _MainScreenState extends State<MainScreen> {
         ),
         actions: [
           TextButton(
-            onPressed: () => Navigator.pop(context),
+            onPressed: () => Navigator.pop(dialogContext),
             child: const Text('Cancelar'),
           ),
           ElevatedButton(
-            onPressed: () {
-              Navigator.pop(context);
-              context.read<AuthProvider>().logout();
-              Navigator.of(context).pushReplacementNamed('/login');
+            onPressed: () async {
+              final navigator = Navigator.of(context);
+              Navigator.pop(dialogContext);
+              await context.read<AuthProvider>().logout();
+              if (mounted) {
+                navigator.pushReplacementNamed('/login');
+              }
             },
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.blue[700],
