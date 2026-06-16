@@ -2,117 +2,72 @@
 
 ## Pré-requisitos
 
-1. **Flutter SDK**: Instale o Flutter (versão 3.0.0 ou superior)
+1. **Flutter SDK**: Instale o Flutter (versão 3.0.0 ou superior).
    ```bash
    flutter --version
    ```
 
-2. **Dart SDK**: Incluído com o Flutter
+2. **Ambiente de Desenvolvimento**: Android Studio ou VS Code com as extensões do Flutter instaladas.
 
-3. **Android Studio / VS Code**: Com extensões Flutter instaladas
+## Instalação do Projeto
 
-## Instalação
+1. **Clonar o Repositório** (se ainda não o fez):
+   ```bash
+   git clone <URL_DO_REPOSITORIO>
+   cd AppTurismo
+   ```
 
-1. **Instalar dependências**:
+2. **Instalar Dependências**:
    ```bash
    flutter pub get
    ```
 
-2. **Gerar código** (para serialização JSON):
+3. **Gerar Código de Serialização JSON**:
+   Este passo é necessário para os modelos de dados do aplicativo.
    ```bash
    flutter pub run build_runner build --delete-conflicting-outputs
    ```
 
 ## Configuração do Google Maps
 
-1. **Obter API Key**:
-   - Acesse [Google Cloud Console](https://console.cloud.google.com/)
-   - Crie um novo projeto ou selecione um existente
-   - Ative a API "Maps SDK for Android" e "Maps SDK for iOS"
-   - Crie uma credencial (API Key)
+Para que o mapa interativo funcione, você precisa de uma chave de API do Google Maps.
 
-2. **Configurar no Android**:
-   - Edite `android/app/src/main/AndroidManifest.xml`
-   - Substitua `YOUR_GOOGLE_MAPS_API_KEY_HERE` pela sua chave
+1. **Obter uma Chave de API**:
+   - Acesse o [Console do Google Cloud](https://console.cloud.google.com/).
+   - Crie um novo projeto ou selecione um existente.
+   - No menu de navegação, vá para "APIs e Serviços" > "Biblioteca".
+   - Ative as seguintes APIs:
+     - **Maps SDK for Android**
+     - **Maps SDK for iOS** (se for desenvolver para iOS)
+     - **Maps JavaScript API** (para a versão web)
+   - Vá para "APIs e Serviços" > "Credenciais" e crie uma nova "Chave de API".
+   - **RECOMENDAÇÃO**: Restrinja sua chave de API para evitar o uso não autorizado. Para este projeto, você pode restringi-la para Android, iOS e Web.
 
-3. **Configurar no código**:
-   - Edite `lib/config/map_config.dart`
-   - Substitua `YOUR_GOOGLE_MAPS_API_KEY_HERE` pela sua chave
+2. **Configurar a Chave no Projeto**:
+   - **Crie o arquivo de configuração**:
+     - Renomeie (ou copie) o arquivo `lib/config/map_config.dart.example` para `lib/config/map_config.dart`.
+   - **Adicione a chave no código**:
+     - Abra o arquivo `lib/config/map_config.dart`.
+     - Substitua o valor `YOUR_GOOGLE_MAPS_API_KEY_HERE` pela chave que você criou.
 
-4. **Para iOS** (se necessário):
-   - Edite `ios/Runner/AppDelegate.swift`
-   - Adicione sua API key no método `application`
+3. **Configurar para Android**:
+   - Abra o arquivo `android/app/src/main/AndroidManifest.xml`.
+   - Encontre a linha que diz `<!-- TODO: Add your Google Maps API key here -->`.
+   - Adicione o seguinte meta-data com a sua chave:
+     ```xml
+     <meta-data
+         android:name="com.google.android.geo.API_KEY"
+         android:value="YOUR_GOOGLE_MAPS_API_KEY_HERE"/>
+     ```
 
-## Executando o App
+4. **Configurar para Web**:
+   - Abra o arquivo `web/index.html`.
+   - Encontre a linha que diz `<!-- TODO: Add your Google Maps API key here -->`.
+   - Adicione o seguinte script antes do fechamento da tag `</head>`:
+     ```html
+     <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_GOOGLE_MAPS_API_KEY_HERE"></script>
+     ```
 
-### Android
-```bash
-flutter run
-```
+## Próximos Passos
 
-### Web
-```bash
-flutter run -d chrome
-```
-
-### iOS (apenas no macOS)
-```bash
-flutter run -d ios
-```
-
-## Estrutura do Projeto
-
-```
-lib/
-├── config/              # Configurações (API keys, etc)
-├── models/              # Modelos de dados
-│   ├── place.dart
-│   ├── user_evaluation.dart
-│   └── user_preferences.dart
-├── services/            # Serviços (ML, API, Storage)
-│   ├── place_service.dart
-│   ├── ml_recommendation_service.dart
-│   ├── evaluation_service.dart
-│   └── storage_service.dart
-├── providers/           # State management (Provider)
-│   └── place_provider.dart
-├── screens/             # Telas do aplicativo
-│   ├── map_screen.dart
-│   ├── suggestions_screen.dart
-│   ├── place_detail_screen.dart
-│   └── evaluation_screen.dart
-└── main.dart            # Ponto de entrada
-```
-
-## Funcionalidades Implementadas
-
-✅ Mapa interativo com Google Maps
-✅ Marcadores de pontos turísticos
-✅ Sistema de recomendações baseado em ML
-✅ Avaliação de lugares pelos usuários
-✅ Interface responsiva
-✅ Armazenamento local de avaliações
-
-## Próximos Passos (Melhorias Futuras)
-
-- [ ] Integração com API real de lugares
-- [ ] Autenticação de usuários
-- [ ] Upload de fotos dos lugares
-- [ ] Filtros avançados (categoria, distância, preço)
-- [ ] Rotas e navegação
-- [ ] Compartilhamento de avaliações
-- [ ] Modo offline
-- [ ] Notificações push
-
-## Notas Importantes
-
-- Os dados de lugares estão mockados em `lib/services/place_service.dart`
-- Em produção, substitua por chamadas de API reais
-- O algoritmo de ML pode ser melhorado com mais dados e features
-- Configure permissões de localização no dispositivo para melhor experiência
-
-
-
-
-
-
+Após a configuração, você está pronto para executar o aplicativo. Consulte o `RUN_GUIDE.md` para instruções detalhadas.
